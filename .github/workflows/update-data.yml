@@ -1,0 +1,65 @@
+name: Update Firework Data
+
+on:
+  schedule:
+    # Daily: the city announces a firework two weeks ahead and drops it two
+    # weeks after, so a weekly run would miss short-notice entries.
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Archive today's fireworks
+        run: bun scripts/archive-fireworks.ts
+
+      - name: Validate archive
+        run: |
+          if ! jq empty data/fireworks.json; then
+            echo "Error: Invalid JSON"
+            exit 1
+          fi
+
+          if ! jq -e '.features[0].properties | has("standort") and has("abbrenn_datum")' \
+            data/fireworks.json > /dev/null; then
+            echo "Error: Missing required properties"
+            exit 1
+          fi
+
+          # The archive only ever grows, so a shrinking file means the merge or
+          # the city's API went wrong.
+          BEFORE=$(git show HEAD:data/fireworks.json | jq '.features | length')
+          AFTER=$(jq '.features | length' data/fireworks.json)
+          echo "Feature count: $BEFORE -> $AFTER"
+
+          if [ "$AFTER" -lt "$BEFORE" ]; then
+            echo "Error: The archive lost fireworks"
+            exit 1
+          fi
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet data/fireworks.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/fireworks.json
+          git commit -m "Update firework data from Dresden OpenData"
+          git push

@@ -1,0 +1,89 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 3144,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.738310285382536,
+          51.05627129805773
+        ]
+      },
+      "properties": {
+        "standort": "Elbufer gegenüber Basteischlösschen, Theaterplatz 3",
+        "jahr": 2026,
+        "abbrenn_datum": "04.09.2026 22:15:00",
+        "art": "Anzeige",
+        "kategorie": 4,
+        "anlass": "Hochzeit",
+        "anzahl": 3,
+        "ds_modified": "27.08.2026 10:18:37"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 3147,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.738545591170746,
+          51.05616703440411
+        ]
+      },
+      "properties": {
+        "standort": "Elbufer unterhalb Elbsegler, Große Meißner Straße 15",
+        "jahr": 2026,
+        "abbrenn_datum": "19.09.2026 21:45:00",
+        "art": "Anzeige",
+        "kategorie": 4,
+        "anlass": "Hochzeit",
+        "anzahl": 2,
+        "ds_modified": "27.08.2026 17:02:31"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 3148,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.940025817455243,
+          51.03504744467373
+        ]
+      },
+      "properties": {
+        "standort": "Feld westlich Festplatz Eschdorf (Kirchwiese), Kirchberg 3",
+        "jahr": 2026,
+        "abbrenn_datum": "27.09.2026 21:15:00",
+        "art": "Anzeige",
+        "kategorie": 4,
+        "anlass": "Kirmes",
+        "anzahl": 1,
+        "ds_modified": "28.08.2026 11:28:07"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 3150,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.73574282637775,
+          51.124718289997894
+        ]
+      },
+      "properties": {
+        "standort": "Feld südlich IVECO Dresden, An der Bartlake 6",
+        "jahr": 2026,
+        "abbrenn_datum": "18.09.2026 20:30:00",
+        "art": "Anzeige",
+        "kategorie": 4,
+        "anlass": "30-jähriges Firmenjubiläum",
+        "anzahl": 1,
+        "ds_modified": "11.09.2026 09:51:34"
+      }
+    }
+  ]
+}
