@@ -48,7 +48,7 @@ export function AboutModal({
             Feuerwerke, aktuelle Mittel- und Großfeuerwerke
           </a>
           . Die Stadt zeigt jedes Feuerwerk nur bis zwei Wochen danach an,
-          deshalb sammelt dieses Projekt sie täglich ein und behält sie.
+          dieses Projekt archiviert auch alte Daten aus diesem Datensatz.
         </p>
 
         <p>
