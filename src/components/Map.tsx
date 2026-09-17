@@ -3,7 +3,7 @@ import type { GeoJSONSource } from "maplibre-gl";
 import { MapLibreMap, NavigationControl, setWorkerUrl } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import type { Firework } from "../lib/fireworks";
 import { BUCKET_COLORS } from "../lib/fireworks";
 
@@ -23,6 +23,31 @@ setWorkerUrl(workerUrl);
 const DRESDEN_CENTER: [number, number] = [13.7372, 51.0504];
 const INITIAL_ZOOM = 11;
 
+const MAP_THEMES = {
+  light: {
+    style: "https://tiles.openfreemap.org/styles/positron",
+    halo: "#ffffff",
+  },
+  dark: {
+    style: "https://tiles.openfreemap.org/styles/dark",
+    // The dark style's own background, so the halo reads as a cut-out.
+    halo: "#0c0c0c",
+  },
+};
+
+const darkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+
+const subscribeToScheme = (onChange: () => void) => {
+  darkScheme.addEventListener("change", onChange);
+  return () => darkScheme.removeEventListener("change", onChange);
+};
+
+/** The map draws on a canvas, so CSS cannot theme it for us. */
+const useMapTheme = () =>
+  useSyncExternalStore(subscribeToScheme, () =>
+    darkScheme.matches ? MAP_THEMES.dark : MAP_THEMES.light,
+  );
+
 const toGeoJSON = (fireworks: Firework[]): FeatureCollection<Point> => ({
   type: "FeatureCollection",
   features: fireworks.map((firework) => ({
@@ -40,12 +65,13 @@ const toGeoJSON = (fireworks: Firework[]): FeatureCollection<Point> => ({
 export function Map({ fireworks, selectedId, onSelect, flyTo }: MapProps) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<MapLibreMap | null>(null);
+  const theme = useMapTheme();
   // The style loads asynchronously, so the layers are added from the latest
   // props rather than the ones captured when the map was created. This effect
   // is declared first so it has run by the time the map is created below.
-  const latest = useRef({ fireworks, selectedId, onSelect });
+  const latest = useRef({ fireworks, selectedId, onSelect, theme });
   useEffect(() => {
-    latest.current = { fireworks, selectedId, onSelect };
+    latest.current = { fireworks, selectedId, onSelect, theme };
   });
 
   useEffect(() => {
@@ -53,7 +79,7 @@ export function Map({ fireworks, selectedId, onSelect, flyTo }: MapProps) {
 
     const instance = new MapLibreMap({
       container: container.current,
-      style: "https://tiles.openfreemap.org/styles/positron",
+      style: latest.current.theme.style,
       center: DRESDEN_CENTER,
       zoom: INITIAL_ZOOM,
     });
@@ -61,7 +87,9 @@ export function Map({ fireworks, selectedId, onSelect, flyTo }: MapProps) {
 
     instance.addControl(new NavigationControl(), "bottom-right");
 
-    instance.on("load", () => {
+    // "style.load" rather than "load", because swapping the style for a theme
+    // change drops everything added here and fires this again.
+    instance.on("style.load", () => {
       instance.addSource("fireworks", {
         type: "geojson",
         data: toGeoJSON(latest.current.fireworks),
@@ -87,7 +115,7 @@ export function Map({ fireworks, selectedId, onSelect, flyTo }: MapProps) {
           "circle-radius": ["get", "radius"],
           "circle-color": ["get", "color"],
           "circle-stroke-width": 2,
-          "circle-stroke-color": "#ffffff",
+          "circle-stroke-color": latest.current.theme.halo,
         },
       });
     });
@@ -112,6 +140,15 @@ export function Map({ fireworks, selectedId, onSelect, flyTo }: MapProps) {
       instance.getCanvas().style.cursor = "";
     });
   }, []);
+
+  // The map is built with the first render's style, so only later switches need
+  // a swap. Diffing is off because the two styles have nothing in common.
+  const appliedStyle = useRef(theme.style);
+  useEffect(() => {
+    if (!map.current || appliedStyle.current === theme.style) return;
+    appliedStyle.current = theme.style;
+    map.current.setStyle(theme.style, { diff: false });
+  }, [theme]);
 
   useEffect(() => {
     const source = map.current?.getSource<GeoJSONSource>("fireworks");

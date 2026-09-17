@@ -7,15 +7,21 @@
 }
 
 :root {
+  /* Lets the browser theme native controls (radios, scrollbars) along with us. */
+  color-scheme: light dark;
+
   --color-heute: #dc2626;
-  --color-kommend: #f59e0b;
-  --color-vergangen: #9ca3af;
   --color-accent: #dc2626;
   --color-bg: #ffffff;
+  /* Matches the background of the map style, so the page never flashes. */
+  --color-map-bg: rgb(242, 243, 240);
   --color-text: #1f2937;
   --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
   --color-border: #e5e7eb;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --color-hover: #f9fafb;
+  --color-fill: #f3f4f6;
+  --color-overlay: rgb(0 0 0 / 0.5);
   --shadow-lg:
     0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --radius: 8px;
@@ -23,11 +29,30 @@
     system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Lightened, because #dc2626 on a dark surface is too dim to read. */
+    --color-heute: #f87171;
+    --color-accent: #f87171;
+    --color-bg: #1c1c1e;
+    --color-map-bg: rgb(12, 12, 12);
+    --color-text: #e5e7eb;
+    --color-text-secondary: #9ca3af;
+    --color-text-muted: #6b7280;
+    --color-border: #3a3a3f;
+    --color-hover: #27272b;
+    --color-fill: #303036;
+    --color-overlay: rgb(0 0 0 / 0.7);
+    --shadow-lg:
+      0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+  }
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
-  background-color: rgb(242, 243, 240);
+  background-color: var(--color-map-bg);
   width: 100%;
   height: 100%;
 }

@@ -43,7 +43,7 @@
 }
 
 .panel-toggle:hover {
-  background: #f9fafb;
+  background: var(--color-hover);
 }
 
 .panel-icon {
@@ -99,7 +99,7 @@
 }
 
 .count {
-  color: #9ca3af;
+  color: var(--color-text-muted);
 }
 
 .panel-empty {
@@ -150,11 +150,11 @@
 }
 
 .firework-item:hover {
-  background: #f9fafb;
+  background: var(--color-hover);
 }
 
 .firework-item.selected {
-  background: #f3f4f6;
+  background: var(--color-fill);
 }
 
 .firework-item-text {
@@ -195,7 +195,7 @@
 }
 
 .about-button:hover {
-  background: #f9fafb;
+  background: var(--color-hover);
   color: var(--color-text);
   border-color: var(--color-text-secondary);
 }
@@ -232,7 +232,7 @@
 }
 
 .info-panel-close:hover {
-  background: #f3f4f6;
+  background: var(--color-fill);
   color: var(--color-text);
 }
 
@@ -274,7 +274,7 @@
 .info-panel-tag {
   display: inline-block;
   padding: 0.125rem 0.5rem;
-  background: #f3f4f6;
+  background: var(--color-fill);
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 500;
@@ -321,7 +321,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--color-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -366,7 +366,7 @@
 }
 
 .modal-close:hover {
-  background: #f3f4f6;
+  background: var(--color-fill);
   color: var(--color-text);
 }
 
@@ -413,4 +413,36 @@
 
 .modal-stats p:last-child {
   margin-bottom: 0;
+}
+
+/* Map controls. maplibre ships a light theme only, so dark mode is on us. The
+   rules are scoped to the container to outweigh maplibre's own stylesheet,
+   which the bundler happens to inject after this one. */
+@media (prefers-color-scheme: dark) {
+  .map-container .maplibregl-ctrl-group,
+  .map-container .maplibregl-ctrl.maplibregl-ctrl-attrib,
+  .map-container .maplibregl-ctrl-attrib.maplibregl-compact {
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  .map-container .maplibregl-ctrl-group button + button {
+    border-top-color: var(--color-border);
+  }
+
+  .map-container .maplibregl-ctrl button:not(:disabled):hover,
+  .map-container .maplibregl-ctrl button:not(:disabled):active {
+    background-color: var(--color-hover);
+  }
+
+  .map-container .maplibregl-ctrl-attrib a {
+    color: var(--color-text-secondary);
+  }
+
+  /* The icons are dark SVGs baked into maplibre's stylesheet as data URLs;
+     inverting them is the only way to lighten them without shipping copies. */
+  .map-container .maplibregl-ctrl-icon,
+  .map-container .maplibregl-ctrl-attrib-button {
+    filter: invert(1);
+  }
 }
