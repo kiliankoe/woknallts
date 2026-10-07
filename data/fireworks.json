@@ -84,6 +84,69 @@
         "anzahl": 1,
         "ds_modified": "11.09.2026 09:51:34"
       }
+    },
+    {
+      "type": "Feature",
+      "id": 3153,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.717987700522603,
+          51.0655960663191
+        ]
+      },
+      "properties": {
+        "standort": "Festwiese Ostragehege, Messering",
+        "jahr": 2026,
+        "abbrenn_datum": "24.10.2026 19:40:00",
+        "art": "Anzeige",
+        "kategorie": 4,
+        "anlass": "Pyro Games",
+        "anzahl": 3,
+        "ds_modified": "06.10.2026 10:57:29"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 3154,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.717987700522603,
+          51.0655960663191
+        ]
+      },
+      "properties": {
+        "standort": "Festwiese Ostragehege, Messering",
+        "jahr": 2026,
+        "abbrenn_datum": "24.10.2026 20:50:00",
+        "art": "Anzeige",
+        "kategorie": 4,
+        "anlass": "Pyro Games",
+        "anzahl": 3,
+        "ds_modified": "06.10.2026 11:04:14"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 3155,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.717987700522603,
+          51.0655960663191
+        ]
+      },
+      "properties": {
+        "standort": "Festwiese Ostragehege, Messering",
+        "jahr": 2026,
+        "abbrenn_datum": "24.10.2026 20:00:00",
+        "art": "Anzeige",
+        "kategorie": 4,
+        "anlass": "Pyro Games",
+        "anzahl": 3,
+        "ds_modified": "06.10.2026 11:09:08"
+      }
     }
   ]
 }
