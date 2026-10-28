@@ -147,6 +147,27 @@
         "anzahl": 3,
         "ds_modified": "06.10.2026 11:09:08"
       }
+    },
+    {
+      "type": "Feature",
+      "id": 3157,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.785486071563579,
+          51.06551911589272
+        ]
+      },
+      "properties": {
+        "standort": "Elbufer Palais, Bautzner Straße 120",
+        "jahr": 2026,
+        "abbrenn_datum": "30.10.2026 21:50:00",
+        "art": "Anzeige",
+        "kategorie": 3,
+        "anlass": "Jubiläumsfeier",
+        "anzahl": 1,
+        "ds_modified": "27.10.2026 11:45:06"
+      }
     }
   ]
 }
